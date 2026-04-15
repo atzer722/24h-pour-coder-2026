@@ -25,7 +25,7 @@
   (print (.. "Best Score: " 0) 2 2 couleur-texte true 1 true)
 
   (print "Dodge!" 45 (+ 50 decalage-y) couleur-texte)
-  (print "press any button to continue" 45 (+ 60 decalage-y) couleur-texte false 1 true)
+  (print "press up arrow button to continue" 45 (+ 60 decalage-y) couleur-texte false 1 true)
 
   (print "By QBitSoft!" 200 130 couleur-texte true 1 true))
 
