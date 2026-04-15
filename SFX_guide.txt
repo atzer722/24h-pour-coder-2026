@@ -4,3 +4,4 @@ Rôle du SFX par index :
 --> 2 : Nutriment spécial ingéré
 --> 3 : Mouche touchée
 --> 4 : Bruit de pas (voir si on garde)
+--> 5 : Bruit de mouche (voir si on garde)
