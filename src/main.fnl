@@ -11,11 +11,15 @@
 (global axis-x 0)
 (global axis-y 0)
 
+(global must-play-sfx false)
+
 (global score 0)
 
 (var couleur-texte 0)  ; 6 = vert. Essaie 11 (bleu clair)
 (var background-color-menu 12)  ; 12 = Blanc. Essaie 0 (Noir)
 (var background-color-game 6)
+
+
 
 ;; Variable pour l'animation
 (var t 0)
@@ -37,10 +41,21 @@
 
   (print "By QBitSoft!" 200 130 couleur-texte true 1 true))
 
+
+
+(fn change-state [sfx-id sfx-note new-state]
+  (sfx sfx-id sfx-note -1)
+  (set state new-state))
+
+
 (fn manage-start-menu [] ;; State 0. Start menu.
   (render-start-menu)
 
-  (switch-state (btn 0) 1))
+  ;; QUAND bouton flèche haut préssée Jouer un son et passe en mode jeu si on est dans le start menu
+  (if (= true (btnp 0))
+    (change-state 0 c5 1)
+  )
+)
 
 (fn render-game []
   (cls background-color-game)
@@ -72,7 +87,8 @@
   (trace (.. "State " state)) ;; Debug
   
   (if (= state 0)
-    (manage-start-menu))
+    (manage-start-menu)
+    )
   
   (if (= state 1)
     (manage-main-game))
