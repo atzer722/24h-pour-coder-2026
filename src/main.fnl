@@ -46,13 +46,19 @@
   (var decalage-y (* (math.sin t) 2))
   
   ;; Start menu title and sub.
+  (for [i 0 29]
+    (for [j 0 29]
+      (spr 7 (* i 8) (* j 8) 0)))
+
   (print (.. "Best Score: " 0) 2 2 couleur-texte true 1 true)
 
-  (print "Dodge!" 105 (+ 50 decalage-y) couleur-texte)
-  (print "Press space to start" 85 (+ 80 decalage-y) couleur-texte false 1 true)
+  (print "Dodge!" 100 (+ 50 decalage-y) couleur-texte)
+  (print "Press space to start" 80 (+ 80 decalage-y) couleur-texte false 1 true)
 
-  (print "By QbitSoft" 197 128 couleur-texte true 1 true))
+  (print "By QbitSoft" 197 128 couleur-texte true 1 true)
 
+  (spr 1 7 35 0 8)
+  (spr 33 165 35 0 8))
 
 (fn change-state [sfx-id sfx-note new-state]
   (sfx sfx-id sfx-note -1)
@@ -82,6 +88,10 @@
   (if (or (not= axis-y 0) (not= axis-x 0))
     (set player-sprite (+ 2 (% t 2)))
     (set player-sprite 1))
+  (spr 5 (- player-x 4) (- player-y 4) 0)
+  (spr 6 (+ player-x 4) (- player-y 4) 0)
+  (spr 21 (- player-x 4) (+ player-y 4) 0)
+  (spr 22 (+ player-x 4) (+ player-y 4) 0)
   (spr player-sprite player-x player-y 0)
   (set axis-x 0)
   (set axis-y 0))
@@ -96,16 +106,15 @@
     (for [j 1 (length inner)]
       (spr (. inner j) (* (+ j 5) 8) (* (- i 1) 8) 0)))
 
-  (print (.. "Score: " score) 2 2 couleur-texte true 1 true)
-  (manage-player-movements))
+  (print (.. "Score: " score) 2 2 couleur-texte true 1 true))
 
 (fn generate-nutriment []
   (if (> nutr-temps 30)
     (set nutr-temps (- nutr-temps 2)))
   (set nutr-delai nutr-temps)
 
-  (set nutr-x (* (+ (math.random 18) 5) 8))
-  (set nutr-y (* (- (math.random 17) 1) 8))
+  (set nutr-x (* (+ (math.random 16) 6) 8))
+  (set nutr-y (* (math.random 15) 8))
 
   (local rand (math.random 5))
   (if (= rand 5)
@@ -117,6 +126,7 @@
 (fn render-nutriment []
   (var decalage-x (* (math.cos t) 1))
   (var decalage-y (* (math.sin t) 2))
+  (spr 34 (+ nutr-x decalage-x) (+ (+ nutr-y 0 decalage-y) 4) 0)
   (spr nutr-index (+ nutr-x decalage-x) (+ nutr-y 0 decalage-y) 0))
 
 (fn manage-ingere-nutriment []
@@ -146,7 +156,9 @@
     (render-nutriment))
   
   (if (= true (detect-collision player-x player-y 8 8 nutr-x nutr-y 8 8))
-    (manage-ingere-nutriment)))
+    (manage-ingere-nutriment))
+  
+  (manage-player-movements))
 
 ;; Boucle principale exécutée à 60 FPS
 (fn _G.TIC []
