@@ -30,7 +30,7 @@
 (for [i 1 17]
   (local map-x []) ;; new table each time
   (for [j 1 18]
-    (tset map-x j (+ (math.random 5) 47)))
+    (tset map-x j (math.random 100)))
   (tset map-sol i map-x))
 
 ;; Variable pour l'animation
@@ -55,7 +55,7 @@
   (print "Dodge!" 100 (+ 50 decalage-y) couleur-texte)
   (print "Press space to start" 80 (+ 80 decalage-y) couleur-texte false 1 true)
 
-  (print "By QbitSoft" 197 128 couleur-texte true 1 true)
+  (print "By QbitSoft" 195 128 couleur-texte true 1 true)
 
   (spr 1 7 35 0 8)
   (spr 33 165 35 0 8))
@@ -104,7 +104,17 @@
   (for [i 1 (length map-sol)]
     (local inner (. map-sol i))
     (for [j 1 (length inner)]
-      (spr (. inner j) (* (+ j 5) 8) (* (- i 1) 8) 0)))
+      (if (< (. inner j) 41) ;; Vide : 40 %
+        (spr 48 (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 61) ;; Fleurs : 20 %
+        (spr ( + 64 (% t 4)) (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 81) ;; Herbe : 20 %
+        (spr ( + 80 (% t 6)) (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 86) ;; Flaque : 5 %
+        (spr ( + 96 (% t 6)) (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 100) ;; Cailloux : 14 %
+        (spr 112 (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (spr 113 (* (+ j 5) 8) (* (- i 1) 8) 0)))) ;; Fenouil : 1% --> A DESSINER !!!
 
   (print (.. "Score: " score) 2 2 couleur-texte true 1 true))
 
