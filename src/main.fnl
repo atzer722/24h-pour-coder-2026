@@ -22,11 +22,16 @@
 (global nutr-delai nutr-temps)
 (global nutr-affiche 0)
 
-(var couleur-texte 1)  ; 6 = vert. Essaie 11 (bleu clair)
-(var background-color-menu 12)  ; 12 = Blanc. Essaie 0 (Noir)
+(var couleur-texte 12)  ; 6 = vert. Essaie 11 (bleu clair)
+(var background-color-menu 0)  ; 12 = Blanc. Essaie 0 (Noir)
 (var background-color-game 6)
 
-
+(global map-sol [])
+(for [i 1 17]
+  (local map-x []) ;; new table each time
+  (for [j 1 18]
+    (tset map-x j (+ (math.random 5) 47)))
+  (tset map-sol i map-x))
 
 ;; Variable pour l'animation
 (var t 0)
@@ -38,16 +43,15 @@
 (fn render-start-menu []
   (cls background-color-menu)
 
-  (var decalage-y (* (math.sin t) 5))
+  (var decalage-y (* (math.sin t) 2))
   
   ;; Start menu title and sub.
   (print (.. "Best Score: " 0) 2 2 couleur-texte true 1 true)
 
-  (print "Dodge!" 45 (+ 50 decalage-y) couleur-texte)
-  (print "press up arrow button to continue" 45 (+ 60 decalage-y) couleur-texte false 1 true)
+  (print "Dodge!" 105 (+ 50 decalage-y) couleur-texte)
+  (print "Press space to start" 85 (+ 80 decalage-y) couleur-texte false 1 true)
 
-  (print "By QBitSoft!" 200 130 couleur-texte true 1 true))
-
+  (print "By QbitSoft" 197 128 couleur-texte true 1 true))
 
 
 (fn change-state [sfx-id sfx-note new-state]
@@ -59,7 +63,7 @@
   (render-start-menu)
 
   ;; QUAND bouton flèche haut préssée Jouer un son et passe en mode jeu si on est dans le start menu
-  (if (= true (btnp 0))
+  (if (= true (key 48))
     (change-state 0 c5 1)
   )
 )
@@ -84,11 +88,20 @@
 
 (fn render-game []
   (cls background-color-game)
+
   (map)
+
+  (for [i 1 (length map-sol)]
+    (local inner (. map-sol i))
+    (for [j 1 (length inner)]
+      (spr (. inner j) (* (+ j 5) 8) (* (- i 1) 8) 0)))
+
   (print (.. "Score: " score) 2 2 couleur-texte true 1 true)
   (manage-player-movements))
 
 (fn generate-nutriment []
+  (if (> nutr-temps 30)
+    (set nutr-temps (- nutr-temps 2)))
   (set nutr-delai nutr-temps)
 
   (set nutr-x (* (+ (math.random 18) 5) 8))
@@ -109,10 +122,13 @@
 (fn manage-ingere-nutriment []
   (set nutr-x -1)
   (set nutr-y -1)
+
   (set nutr-affiche 0)
+
   (if (= nutr-index 32)
     (set score (+ score 100))
     (set score (+ score 500)))
+  
   (if (= nutr-index 32)
     (sfx 1 c6 -1)
     (sfx 2 c6 -1)))
