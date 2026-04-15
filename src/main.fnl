@@ -22,8 +22,8 @@
 (global nutr-delai nutr-temps)
 (global nutr-affiche 0)
 
-(var couleur-texte 1)  ; 6 = vert. Essaie 11 (bleu clair)
-(var background-color-menu 12)  ; 12 = Blanc. Essaie 0 (Noir)
+(var couleur-texte 12)  ; 6 = vert. Essaie 11 (bleu clair)
+(var background-color-menu 0)  ; 12 = Blanc. Essaie 0 (Noir)
 (var background-color-game 6)
 
 (global map-sol [])
@@ -43,15 +43,15 @@
 (fn render-start-menu []
   (cls background-color-menu)
 
-  (var decalage-y (* (math.sin t) 5))
+  (var decalage-y (* (math.sin t) 2))
   
   ;; Start menu title and sub.
   (print (.. "Best Score: " 0) 2 2 couleur-texte true 1 true)
 
-  (print "Dodge!" 45 (+ 50 decalage-y) couleur-texte)
-  (print "press up arrow button to continue" 45 (+ 60 decalage-y) couleur-texte false 1 true)
+  (print "Dodge!" 105 (+ 50 decalage-y) couleur-texte)
+  (print "Press space to start" 85 (+ 80 decalage-y) couleur-texte false 1 true)
 
-  (print "By QBitSoft!" 200 130 couleur-texte true 1 true))
+  (print "By QbitSoft" 197 128 couleur-texte true 1 true))
 
 
 (fn change-state [sfx-id sfx-note new-state]
@@ -63,7 +63,7 @@
   (render-start-menu)
 
   ;; QUAND bouton flèche haut préssée Jouer un son et passe en mode jeu si on est dans le start menu
-  (if (= true (btnp 0))
+  (if (= true (key 48))
     (change-state 0 c5 1)
   )
 )
