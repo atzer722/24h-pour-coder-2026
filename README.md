@@ -29,3 +29,9 @@ Quand une **mouche** apparaît, esquive-la tout de suite! Après tout, toucher l
 - Commencer une partie : `Entrée ⤶`
 - Déplacer le petit fenouil : `Flèches ← ↑ ↓ →`
 - ***AJOUTER TOUTES LES COMMANDES A LA FIN***
+
+---
+
+## Images
+
+[Brainstorming avant le debut du code](./images/notes.jpg)
