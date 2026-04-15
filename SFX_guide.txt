@@ -1,0 +1,6 @@
+Rôle du SFX par index :
+--> 0 : Nouvelle partie
+--> 1 : Nutriment normal ingéré
+--> 2 : Nutriment spécial ingéré
+--> 3 : Mouche touchée
+--> 4 : Bruit de pas (voir si on garde)
