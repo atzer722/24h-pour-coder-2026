@@ -39,7 +39,7 @@
 (for [i 1 17]
   (local map-x []) ;; new table each time
   (for [j 1 18]
-    (tset map-x j (+ (math.random 5) 47)))
+    (tset map-x j (math.random 100)))
   (tset map-sol i map-x))
 
 ;; Variable pour l'animation
@@ -140,7 +140,7 @@
       (trace "Generate fly.")
       (local start-x (math.random 240 480))
       (local start-y (math.random 136 272))
-      (new-fly start-x start-y start-x start-y (math.random 240) (math.random 136) (* 120 (- 1 (- chad-mult 1))) (* chad-mult 10))
+      (new-fly start-x start-y start-x start-y (math.random 0 240) (math.random 0 136) (* 120 (- 1 (- chad-mult 1))) (* chad-mult 10))
       (trace i)))
   (set is-initializing-game false)
   (trace-flies)
@@ -155,7 +155,17 @@
   (for [i 1 (length map-sol)]
     (local inner (. map-sol i))
     (for [j 1 (length inner)]
-      (spr (. inner j) (* (+ j 5) 8) (* (- i 1) 8) 0)))
+      (if (< (. inner j) 41) ;; Vide : 40 %
+        (spr 48 (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 61) ;; Fleurs : 20 %
+        (spr ( + 64 (% t 4)) (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 81) ;; Herbe : 20 %
+        (spr ( + 80 (% t 6)) (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 86) ;; Flaque : 5 %
+        (spr ( + 96 (% t 6)) (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (< (. inner j) 100) ;; Cailloux : 14 %
+        (spr 112 (* (+ j 5) 8) (* (- i 1) 8) 0)
+        (spr 113 (* (+ j 5) 8) (* (- i 1) 8) 0)))) ;; Fenouil : 1% --> A DESSINER !!!
 
   (print (.. "Score: " score) 2 2 couleur-texte true 1 true))
 
@@ -199,7 +209,6 @@
 
 (fn manage-main-game []
   (render-game)
-  (manage-flies)
 
   (if (= nutr-affiche 0)
     (if (> nutr-delai 0)
