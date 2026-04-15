@@ -26,6 +26,6 @@ Quand une **mouche** apparaît, esquive-la tout de suite! Après tout, toucher l
 
 ## Contrôles
 
-- Commencer une partie : 'Entrée ⤶'
-- Déplacer le petit fenouil : 'Flèches ← ↑ ↓ →'
+- Commencer une partie : `Entrée ⤶`
+- Déplacer le petit fenouil : `Flèches ← ↑ ↓ →`
 - ***AJOUTER TOUTES LES COMMANDES A LA FIN***

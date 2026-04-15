@@ -1,0 +1,10 @@
+Rôle du sprite par index :
+--> 0 : Vide (obligatoire)
+--> 1 : Fenouil immobile
+--> 2 : Fenouil marche 1
+--> 3 : Fenouil marche 2
+--> 4 : Fenouil mort
+--> 16 : Mouche vol 1
+--> 17 : mouche vol 2
+--> 32 : nutriment normal
+--> 33 : nutriment spécial
