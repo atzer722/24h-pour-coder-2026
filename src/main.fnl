@@ -57,7 +57,7 @@
     (tset map-x j (math.random 100)))
   (tset map-sol i map-x))
 
- ; Variable pour l'animation
+; Variable pour l'animation
 (var t 0)
 
 (fn restart-game []
@@ -239,8 +239,7 @@
   (local start-y (math.random 0 136))
   (var must-chad (and (< chad-mod-lvl chad-mult) (not chad-fly-spawned)))
   (if (= true must-chad)
-    (spaw-chad)
-    (set must-chad false))
+    (spaw-chad))
 
   (new-fly start-x start-y start-x start-y (math.random 0 240) (math.random 0 136) (* chad-mult 0.002) must-chad))
 
