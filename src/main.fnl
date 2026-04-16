@@ -23,6 +23,7 @@
 
 ;; Flies
 (global flies []) ;; {fly-pos-x, fly-pos-y, fly-vector-x, fly-vector-y, fly-respawn-delay}
+; (global dead-flies-counter []) ;; Counters of dead flies.
 
 (global must-play-sfx false)
 
@@ -161,18 +162,33 @@
     (trace (.. "respawn-delay: " (. value :fly-respawn-delay)))
     (trace "}")))
 
-(fn new-fly [pos-x pos-y dir-start-x dir-start-y dir-end-x dir-end-y delay velocity]
+(fn new-fly [pos-x pos-y dir-start-x dir-start-y dir-end-x dir-end-y velocity]
   ;; ->AB=((xb-xa)*->i)+((yb-ya)*->i)
   (local vector-x (- dir-end-x dir-start-x))
   (local vector-y (- dir-end-y dir-start-y))
   (set velo (* velocity chad-mult))
-  (table.insert flies {:fly-pos-x pos-x :fly-pos-y pos-y :fly-vector-x (* velo vector-x) :fly-vector-y (* velo vector-y) :fly-respawn-delay delay}))
+  (table.insert flies {:fly-pos-x pos-x :fly-pos-y pos-y :fly-vector-x (* velo vector-x) :fly-vector-y (* velo vector-y)}))
+
+(fn spawn-flies []
+  (local spawn-zone (math.random 0 1))
+  (var start-x (math.random 0 40))
+  (if (= 1 spawn-zone)
+    (set start-x (math.random 200 240)))
+  (local start-y (math.random 0 136))
+  (new-fly start-x start-y start-x start-y (math.random 0 240) (math.random 0 136) (* chad-mult 0.002)))
+
+(fn remove-fly [j]
+  (table.remove flies j)
+  (spawn-flies))
 
 (fn move-flies []
   ; (trace "Tdmsldvs")
-  (each [key value (pairs flies)]
+  (each [j value (pairs flies)]
     (tset value :fly-pos-x (+ (. value :fly-vector-x) (. value :fly-pos-x)))
-    (tset value :fly-pos-y (+ (. value :fly-vector-y) (. value :fly-pos-y)))))
+    (tset value :fly-pos-y (+ (. value :fly-vector-y) (. value :fly-pos-y)))
+    (detecte-oob (. value :fly-pos-x) (. value :fly-pos-y) 0 240 0 136)
+    (if (= true correct)
+      (remove-fly j))))
 
 (fn render-flies []
   (each [key value (pairs flies)]
@@ -181,14 +197,7 @@
 (fn manage-flies []
   (if (= true is-initializing-game)
     (for [i 0 5 1]
-
-      (var mult-x -1)
-      (if (= (math.random 1 2) 1)
-        (set mult-x 1))
-      (local start-x (* (math.random 240 480) mult-x))
-
-      (local start-y (math.random 0 136))
-      (new-fly start-x start-y start-x start-y (math.random 0 240) (math.random 0 136) (* 120 (- 1 (- chad-mult 1))) (* chad-mult 0.002))))
+      (spawn-flies)))
   (set is-initializing-game false)
   ; (trace-flies)
   (move-flies)
@@ -256,7 +265,11 @@
   
   (if (= nutr-index 32)
     (sfx 1 c6 -1)
-    (sfx 2 c6 -1)))
+    (sfx 2 c6 -1))
+  
+  (if (= nutr-index 32)
+    (set chad-mult (* 1.01 chad-mult))
+    (set chad-mult (* 1.05 chad-mult))))
 
 (fn detect-collision [ax ay aw ah bx by bw bh]
   (and (and (< ax (+ bx bw)) (> (+ ax aw) bx)) (and (< ay (+ by bh)) (> (+ ay ah) by))))
