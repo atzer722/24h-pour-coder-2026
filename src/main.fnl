@@ -19,7 +19,7 @@
 (global is-initializing-game false)
 
 (global chad-mult 1)
-(global chad-mod-lvl 1.4)
+(global chad-mod-lvl 1.1)
 (global chad-fly-spawned false)
 
 ; Flies
@@ -218,14 +218,18 @@
     (trace (.. "vector-y: " (. value :fly-vector-y)))
     (trace (.. "respawn-delay: " (. value :fly-respawn-delay)))
     (trace "}")))
+  
+(fn spaw-chad []
+  (set music-main 0)
+  (set chad-fly-spawned true))
 
 (fn new-fly [pos-x pos-y dir-start-x dir-start-y dir-end-x dir-end-y velocity is-chad]
   ; ->AB=((xb-xa)*->i)+((yb-ya)*->i)
   (local vector-x (- dir-end-x dir-start-x))
   (local vector-y (- dir-end-y dir-start-y))
   (set velo (* velocity chad-mult))
-  (if (> chad-mult chad-mod-lvl)
-    (set music-main 0))
+  ;(if (> chad-mult chad-mod-lvl)
+  ;  (set music-main 0))
   (table.insert flies {:fly-pos-x pos-x :fly-pos-y pos-y :fly-vector-x (* velo vector-x) :fly-vector-y (* velo vector-y) :is-chad is-chad}))
 
 (fn spawn-flies []
@@ -234,14 +238,14 @@
   (if (= 1 spawn-zone)
     (set start-x (math.random 200 240)))
   (local start-y (math.random 0 136))
-  (local must-chad (and (< chad-mod-lvl chad-mult) (= false chad-fly-spawned)))
+  (var must-chad (and (< chad-mod-lvl chad-mult) (not chad-fly-spawned)))
   (if (= true must-chad)
-    (set chad-fly-spawned true))
-  
+    (spaw-chad)
+    (set must-chad false))
+
   (new-fly start-x start-y start-x start-y (math.random 0 240) (math.random 0 136) (* chad-mult 0.002) must-chad))
 
 (fn remove-fly [j]
-  (trace "respaw")
   (table.remove flies j)
   (spawn-flies))
 
