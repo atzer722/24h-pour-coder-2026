@@ -19,7 +19,7 @@
 (global is-initializing-game false)
 
 (global chad-mult 1)
-(global chad-mod-lvl 1.1)
+(global chad-mod-lvl 1.3)
 (global chad-fly-spawned false)
 
 ; Flies
@@ -75,6 +75,7 @@
   (set is-initializing-game false)
 
   (set chad-mult 1)
+  (set chad-fly-spawned false)
 
 ; Flies
   (set flies []) ; {fly-pos-x, fly-pos-y, fly-vector-x, fly-vector-y, fly-respawn-delay}
@@ -259,11 +260,23 @@
     (if (detect-collision player-x player-y 8 8 (. value :fly-pos-x) (. value :fly-pos-y) 8 8)
       (change-state 3 c3 2))))
 
-(fn render-ombre-mouche [x y]
+(fn render-ombre-mouche1 [x y]
   (spr 192 (- x 4) (- y 4) 0)
   (spr 193 (+ x 4) (- y 4) 0)
   (spr 208 (- x 4) (+ y 4) 0)
   (spr 209 (+ x 4) (+ y 4) 0))
+
+(fn render-ombre-mouche2 [x y]
+  (spr 194 (- x 12) (- y 12) 0 3)
+  (spr 195 (+ x 12) (- y 12) 0 3)
+  (spr 210 (- x 12) (+ y 12) 0 3)
+  (spr 211 (+ x 12) (+ y 12) 0 3))
+
+(fn render-ombre-mouche3 [x y]
+  (spr 196 (- x 12) (- y 12) 0 3)
+  (spr 197 (+ x 12) (- y 12) 0 3)
+  (spr 212 (- x 12) (+ y 12) 0 3)
+  (spr 213 (+ x 12) (+ y 12) 0 3))
 
 (fn render-flies []
   (each [key value (pairs flies)]
@@ -274,11 +287,15 @@
       (set sprite-randomizer 18)
       (set size 1))
 
-    (spr 34 (. value :fly-pos-x) (+ (. value :fly-pos-y) 4) 0)
+    (spr 34 (. value :fly-pos-x) (+ (. value :fly-pos-y) (* 4 size)) 0)
 
     (local sprite (math.random sprite-randomizer (+ 1 sprite-randomizer)))
     (if (= sprite 17)
-      (render-ombre-mouche (. value :fly-pos-x) (. value :fly-pos-y)))
+      (render-ombre-mouche1 (. value :fly-pos-x) (. value :fly-pos-y))
+      (= sprite 18)
+      (render-ombre-mouche2 (. value :fly-pos-x) (. value :fly-pos-y))
+      (= sprite 19)
+      (render-ombre-mouche3 (. value :fly-pos-x) (. value :fly-pos-y)))
     (spr sprite (. value :fly-pos-x) (. value :fly-pos-y) 0 size)))
 
 (fn manage-flies []
