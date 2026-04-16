@@ -34,4 +34,4 @@ Quand une **mouche** apparaît, esquive-la tout de suite ! Après tout, toucher 
 
 ## 📷​ Images
 
-![Brainstorming avant le debut du code](./images/notes.jpg")
+![Brainstorming avant le debut du code](./images/notes.jpg "Brainstorming avant le debut du code")
