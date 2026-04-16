@@ -35,3 +35,9 @@ Quand une **mouche** apparaît, esquive-la tout de suite ! Après tout, toucher 
 ## 📷​ Images
 
 ![Brainstorming avant le debut du code](./images/notes.jpg "Brainstorming avant le debut du code")
+
+![Écran titre](./images/intro.png "Écran titre")
+
+![Un peu de gameplay](./images/main game.png "Un peu de gameplay")
+
+![Aïe ! Game Over !](./images/game over.png "Aïe ! Game Over !")
