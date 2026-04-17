@@ -17,3 +17,6 @@ desktop.ini
 *.sln
 *.sw?
 .local/
+
+# QBitSoft
+src/main_.fnl
